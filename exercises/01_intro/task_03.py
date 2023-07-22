@@ -19,3 +19,7 @@ $ python task_03.py
 start_data = "Python is a high-level, interpreted, general-purpose programming language."
 print(start_data)
 
+d_new = start_data.replace(",", "").replace(".","").split()
+
+print(d_new)
+print(type(d_new))

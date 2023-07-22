@@ -32,3 +32,10 @@ $ python task_07.py
 У списку words немає такого індексу
 """
 words = ["word1", "word2", "word3"]
+
+data=int(input("Please enter your number: "))
+
+if data == True:
+   print(words[data])
+else:
+   print("У списку words немає такого індексу")

@@ -29,3 +29,13 @@ $ python task_11.py
 """
 colors = ["Green", 'RED', 'Pink', 'YELLOW', 'white', 'Black']
 
+user_color = input("Введіть колір: ")
+user_color_lower = user_color.lower()
+
+if user_color_lower in [color.lower() for color in colors]:
+    print("Такий колір є")
+else:
+    print("У списку colors немає такого кольору")
+
+
+
