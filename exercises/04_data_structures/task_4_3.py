@@ -17,4 +17,19 @@
 інакше перевіряти результат.
 """
 
+import pprint 
+
 config = "switchport trunk allowed vlan 1,3,10,20,30,100"
+
+
+result = []
+
+numbers = config.replace(",", " ").split(" ")
+
+
+for num in numbers:
+   if num.isdigit():
+      result.append(int(num))
+      
+      
+print(result)

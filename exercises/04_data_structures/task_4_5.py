@@ -22,6 +22,30 @@ command1 і в команді command2 (перетин). Елементи спи
 не означає, що завдання зроблено правильно, просто на даному етапі складно
 інакше перевіряти результат.
 """
-
 command1 = "switchport trunk allowed vlan 1,2,3,5,8"
 command2 = "switchport trunk allowed vlan 1,3,8,9"
+
+vlans_command1 = set(command1.split()[-1].split(','))
+vlans_command2 = set(command2.split()[-1].split(','))
+
+result = sorted(list(vlans_command1 & vlans_command2))
+
+print(result)
+
+# import re
+
+# command1 = "switchport trunk allowed vlan 1,2,3,5,8"
+# command2 = "switchport trunk allowed vlan 1,3,8,9"
+
+# com = command1 + " " + command2 
+
+# result = []
+
+# numbers = re.findall(r'\d+', com)
+
+# numbers = set(numbers)
+# numbers = [int(num) for num in numbers]
+# result = list(numbers)
+# numbers.sort()
+
+# print(numbers)
