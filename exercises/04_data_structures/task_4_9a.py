@@ -21,3 +21,6 @@ words = [
     'Guido', 'van', 'Rossum', 'began', 'working', 'on',
     'Python', 'in', 'the', 'late', '1980s',
 ]
+
+for x in range(0, words, 2):
+    print(str(x), "", end='') 

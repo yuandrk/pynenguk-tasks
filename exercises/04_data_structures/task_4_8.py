@@ -23,3 +23,15 @@
 """
 
 ip = "192.168.3.1"
+
+ip_template = '''
+IP address:
+{0:<8} {1:<8} {2:<8} {3:<8}\n
+{0:08b} {1:08b} {2:08b} {3:08b}
+'''
+
+ip1 = ip.split(".")
+ip2 = [int(num) for num in ip1]
+
+print(ip_template.format(*ip2))
+

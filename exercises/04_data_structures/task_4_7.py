@@ -17,3 +17,9 @@ print.
 """
 
 mac = "AAAA:BBBB:CCCC"
+
+mac_parts = mac.split(':')
+
+template = "{0:08b}{1:08b}{2:08b}"
+
+print(template.format(int(mac_parts[0], 16), int(mac_parts[1], 16), int(mac_parts[2], 16)))
