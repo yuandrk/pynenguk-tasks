@@ -42,4 +42,29 @@ bin_ip = "0000101000000001000000111000011"
 А адреса мережі буде перших 28 символів з bin_ip + 0000 (4 тому що всього в
 адресі може бути 32 біти, а 32 - 28 = 4)
 00001010000000010000000111000000
-""
+""" 
+ip_address_mac = input("Enter network address and mask: ")  # Get the IP address and mask from the user
+
+ip_address, mask = ip_address_mac.split()
+ip_octets = ip_address.split('.')
+mask_octets = mask.split('.')
+network_octets = []  
+
+binary_mask = ''.join([format(int(octet), '08b') for octet in mask_octets])
+cidr = binary_mask.count('1')
+
+for i in range(4):
+    network_octet = int(ip_octets[i]) & int(mask_octets[i])
+    network_octets.append(network_octet)
+    
+binary_ip_octets = [format(int(octet), '08b') for octet in network_octets]
+    
+print("\nNetwork:")
+print("{:<10}{:<10}{:<10}{:<10}".format(network_octets[0], network_octets[1], network_octets[2], network_octets[3]))
+print("{:<10}{:<10}{:<10}{:<10}".format(*binary_ip_octets)) 
+
+
+print("\nMask:")
+print("/{}".format(cidr))
+print("{:<10}{:<10}{:<10}{:<10}".format(*mask_octets))
+print("{:<10}{:<10}{:<10}{:<10}".format(*[format(int(octet), '08b') for octet in mask_octets]))

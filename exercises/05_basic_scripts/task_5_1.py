@@ -24,7 +24,13 @@ IndexError.
 
 Обмеження: не можна редагувати список words.
 """
+
 words = [
     'Guido', 'van', 'Rossum', 'began', 'working', 'on',
     'Python', 'in', 'the', 'late', '1980s',
 ]
+
+# write code ask user input index and print word from list with index
+# in lower case
+index = int(input("Enter separator: ")) 
+print(words[index].lower())

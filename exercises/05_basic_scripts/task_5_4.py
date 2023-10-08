@@ -16,3 +16,14 @@
   стовпцями для поділу октетів між собою)
 
 """
+ip_address = input("Enter IP-address: ")
+octets = ip_address.split('.')
+
+# Print the IP address in decimal format
+print("{:<10}{:<10}{:<10}{:<10}".format(octets[0], octets[1], octets[2], octets[3]))
+
+# Convert each octet to binary and format them correctly
+binary_octets = [format(int(octet), '08b') for octet in octets]
+
+# Print the IP address in binary format
+print("{:<10}{:<10}{:<10}{:<10}".format(binary_octets[0], binary_octets[1], binary_octets[2], binary_octets[3]))
