@@ -17,3 +17,10 @@ $ python task_6_1.py
 """
 
 mac = ["aabb:cc80:7000", "aabb:dd80:7340", "aabb:ee80:7000", "aabb:ff80:7000"]
+
+result = []
+
+for mac_address in mac:
+    result.append(mac_address.replace(':','.'))
+    
+print(result)

@@ -32,3 +32,23 @@ Enter IP address: 250.1.1.1
 unused
 
 """
+
+ip = input("Enter IP address: ")
+
+octets = ip.split(".")
+
+if all(octet.isdigit() and 0 <= int(octet) <= 255 for octet in octets):
+    first_octet = int(octets[0])
+
+    if first_octet == 0:
+        print("unassigned")
+    elif first_octet == 255 and all(int(octet) == 255 for octet in octets):
+        print("local broadcast")
+    elif 1 <= first_octet <= 223:
+        print("unicast")
+    elif 224 <= first_octet <= 239:
+        print("multicast")
+    else:
+        print("unused")
+else:
+    print("Invalid IP address format")

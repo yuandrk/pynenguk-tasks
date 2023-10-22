@@ -16,3 +16,14 @@ Python.
 
 line = "Guido van Rossum began working on Python in the late 1980s"
 
+vowels = "aeioyu"  # Define lowercase vowels
+result = ""  # Initialize an empty string to store the result
+
+# Loop through each character in the 'line' string
+for char in line:
+    if char in vowels:  # Check if the character is a lowercase vowel
+        result += char.upper()  # If yes, convert it to uppercase and add to 'result'
+    else:
+        result += char  # If not a vowel, add the character as is to 'result'
+
+print(result)  # Print the modified string

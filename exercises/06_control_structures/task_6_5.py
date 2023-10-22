@@ -51,4 +51,15 @@ Correct!
 from random import randint
 
 random_number = randint(1, 9)
-# print(random_number)
+
+for i in range(5):
+    number = int(input("Enter number: "))
+    if number == random_number:
+        print("Correct!")
+        break
+    elif number > random_number:
+        print("Your guess is too high")
+    else:
+        print("Your guess is too low")
+
+print(random_number)

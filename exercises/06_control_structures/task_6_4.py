@@ -22,3 +22,18 @@
 files = [
     "cfg_1.txt", "cfg_4.txt", "cfg_8.txt", "cfg_9.txt", "cfg_12.txt", "cfg_15.txt"
 ]
+
+result = []
+
+
+for file in files:
+    parts = file.split("_") 
+    if len(parts) == 2:
+        prefix = parts[0] 
+        number = parts[1].split(".")[0]  
+        number = number.zfill(2)  
+        extension = parts[1].split(".")[1] 
+        new_filename = f"{prefix}_{number}.{extension}" 
+        result.append(new_filename)
+
+print(result)

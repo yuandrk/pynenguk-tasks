@@ -71,10 +71,26 @@ trunk = {
     "0/7": ["only", "30"],
 }
 
-# for intf, vlan in access.items():
-#     print("interface FastEthernet" + intf)
-#     for command in access_template:
-#         if command.endswith("access vlan"):
-#             print(f" {command} {vlan}")
-#         else:
-#             print(f" {command}")
+
+def generate_trunk_config(interface, config):
+    result = []
+    for command in trunk_template:
+        if command == "switchport trunk allowed vlan":
+            # Обробка команд 'add', 'del', 'only' для VLAN
+            if config[0] == "add":
+                vlan_command = f"{command} add {','.join(config[1:])}"
+            elif config[0] == "del":
+                vlan_command = f"{command} remove {','.join(config[1:])}"
+            elif config[0] == "only":
+                vlan_command = f"{command} {','.join(config[1:])}"
+            result.append(vlan_command)
+        else:
+            result.append(command)
+    return result
+
+
+# Генеруємо конфігурацію для кожного порту trunk
+for intf, config in trunk.items():
+    print(f"interface FastEthernet{intf}")
+    for line in generate_trunk_config(intf, config):
+        print(f" {line}")
