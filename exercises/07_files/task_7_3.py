@@ -17,3 +17,9 @@ MAC-адреса, має бути оброблена таким чином, що
 1000     0a4b.c380.7d00      Gi0/9
 
 """
+
+with open ('CAM_table.txt') as f:
+    for line in f:
+       if line.isdigit():
+          print(line.ljust(10), end='') 
+             

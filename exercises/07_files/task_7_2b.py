@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 """
 Завдання 7.2b
 
@@ -16,3 +17,17 @@ ignore та рядки, що починаються на '!'.
 """
 
 ignore = ["duplex", "alias", "configuration", "end", "service"]
+
+with open(sys.argv[1]) as f, open(sys.argv[2], 'w') as b:
+    for line in f:
+        if line.startswith('!'):
+            continue
+        elif line.startswith(('version', 'service', 'Current', 'no service')):
+            print(line, end='')
+            b.write(line)
+        elif line.startswith(" "):
+            if line.split()[0] not in ignore:
+                print(line.rstrip())
+                b.write(line.rstrip())
+        else:
+            continue

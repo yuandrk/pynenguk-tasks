@@ -40,3 +40,48 @@ interface Ethernet0/3
 ...
 
 """
+
+import sys
+
+# config_file = sys.argv[1]
+
+# try:
+#     with open(config_file, 'r') as file:
+#         for line in file:
+#             # Remove leading and trailing whitespace from the line
+#             line = line.strip()
+
+#             # Skip empty lines
+#             if not line:
+#                 continue
+
+#             # Skip lines starting with '!'
+#             if line.startswith('!'):
+#                 continue
+
+#             # Print the line
+#             print(line)
+
+# except FileNotFoundError:
+#     print(f"File '{config_file}' not found.")
+# except Exception as e:
+#     print(f"An error occurred: {str(e)}")
+
+
+
+
+file = sys.argv[1]
+
+with open(file) as f:
+   write_line = False
+   for line in f:
+       if line.startswith('interface'):
+          print(line.rstrip())
+          write_line = True
+       elif line.startswith(('version', 'service', 'Current', 'no service')):
+           print(line, end='')  
+       elif line.startswith(" "):
+          if write_line:
+            print(line.rstrip())
+       else:
+           write_line = False

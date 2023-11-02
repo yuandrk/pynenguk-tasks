@@ -1,0 +1,96 @@
+============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-7.4.2, pluggy-1.3.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+metadata: {'Python': '3.10.12', 'Platform': 'Linux-5.15.0-1041-raspi-aarch64-with-glibc2.35', 'Packages': {'pytest': '7.4.2', 'pluggy': '1.3.0'}, 'Plugins': {'json-report': '1.5.0', 'clarity': '1.0.1', 'metadata': '3.0.0'}}
+rootdir: /home/yuandrk/github/pynenguk-tasks/exercises/07_files
+configfile: pytest.ini
+plugins: json-report-1.5.0, clarity-1.0.1, metadata-3.0.0
+collecting ... collected 1 item
+
+test_task_7_2.py::test_task FAILED                                       [100%]
+
+=================================== FAILURES ===================================
+__________________________________ test_task ___________________________________
+
+capsys = <_pytest.capture.CaptureFixture object at 0xffff83615e70>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff83615090>
+
+    def test_task(capsys, monkeypatch):
+        """
+        Перевірка роботи завдання при вводе access
+        """
+        monkeypatch.setattr("sys.argv", ["task_7_2.py", "config_sw1.txt"])
+        import task_7_2
+    
+        out, err = capsys.readouterr()
+        correct_stdout = (
+            "Current configuration : 2033 bytes\n"
+            "version 15.0\n"
+            "service timestamps debug datetime msec\n"
+            "service timestamps log datetime msec\n"
+            "no service password-encryption\n"
+            "hostname sw1\n"
+            "interface Ethernet0/0\n"
+            " duplex auto\n"
+            "interface Ethernet0/1\n"
+            " switchport trunk encapsulation dot1q\n"
+            " switchport trunk allowed vlan 100\n"
+            " switchport mode trunk\n"
+            " duplex auto\n"
+            " spanning-tree portfast edge trunk\n"
+            "interface Ethernet0/2\n"
+            " duplex auto\n"
+            "interface Ethernet0/3\n"
+            " switchport trunk encapsulation dot1q\n"
+            " switchport trunk allowed vlan 100\n"
+            " duplex auto\n"
+            " switchport mode trunk\n"
+            " spanning-tree portfast edge trunk\n"
+        )
+        config_part = re.search(
+            r"(Current configuration.*?)interface Ethernet1/0", out, re.DOTALL
+        ).group(1)
+    
+        assert out, (
+            "Нічого не виведено стандартний потік виведення. Потрібно не лише "
+            "отримати потрібний результат, але й вивести його на стандартний потік "
+            "виведення за допомогою print"
+        )
+>       assert (
+            correct_stdout == config_part
+        ), "На стандартний потік виведення виводиться неправильний вивід"
+E       AssertionError: На стандартний потік виведення виводиться неправильний вивід
+E       assert == failed. [pytest-clarity diff shown]
+E         [0m
+E         [0m[32mLHS[0m vs [31mRHS[0m shown below
+E         [0m
+E         [0mCurrent configuration : 2033 bytes
+E         [0mversion 15.0
+E         [0mservice timestamps debug datetime msec
+E         [0mservice timestamps log datetime msec
+E         [0mno service password-encryption
+E         [0m[32mhostname sw1[0m
+E         [0minterface Ethernet0/0
+E         [0m duplex auto
+E         [0minterface Ethernet0/1
+E         [0m switchport trunk encapsulation dot1q
+E         [0m switchport trunk allowed vlan 100
+E         [0m switchport mode trunk
+E         [0m duplex auto
+E         [0m spanning-tree portfast edge trunk
+E         [0minterface Ethernet0/2
+E         [0m duplex auto
+E         [0minterface Ethernet0/3
+E         [0m switchport trunk encapsulation dot1q
+E         [0m switchport trunk allowed vlan 100
+E         [0m duplex auto
+E         [0m switchport mode trunk
+E         [0m spanning-tree portfast edge trunk
+E         [0m
+
+test_task_7_2.py:45: AssertionError
+--------------------------------- JSON report ----------------------------------
+report auto-save skipped
+=========================== short test summary info ============================
+FAILED test_task_7_2.py::test_task - AssertionError: На стандартний потік вив...
+========================= 1 failed, 1 warning in 0.29s =========================

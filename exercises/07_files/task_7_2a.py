@@ -46,5 +46,24 @@ line vty 0 4
 Перевірити роботу скрипта на конфігураційному файлі config_sw1.txt. Ім'я файлу
 передається як аргумент скрипту.
 """
+import sys
+file = sys.argv[1]
 
 ignore = ["duplex", "alias", "configuration", "end", "service"]
+
+with open(file) as f:
+   write_line = False
+   for line in f:
+       if line.startswith('interface'):
+          print(line.rstrip())
+          write_line = True
+       elif line.startswith(('version', 'service', 'Current', 'no service')):
+           print(line, end='')  
+       elif line.startswith(" "):
+          if write_line:
+            print(line.rstrip())
+       else:
+           for ig in ignore:
+               if line.startswith(ig):
+                   break
+           write_line = False
