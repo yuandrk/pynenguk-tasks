@@ -38,4 +38,34 @@ config_trunk_sw3.txt. Переконайтеся, що в результаі д�
 знаходиться в режимі trunk, якщо в нього налаштована команда:
 switchport trunk allowed vlan.
 """
-from pprint import pprint
+
+import sys
+import pprint
+
+# Get the input filename from command-line arguments
+input_filename = sys.argv[1]
+
+# Dictionary to hold trunk port information
+trunk_dict = {}
+
+# Use a context manager to read the configuration file
+with open(input_filename) as file:
+    # Temporary variable to hold the current interface
+    current_interface = None
+    
+    # Loop through each line in the configuration file
+    for line in file:
+        line = line.strip()  # Remove leading/trailing whitespace
+        
+        # If the line starts with 'interface', set the current interface
+        if line.startswith("interface"):
+            current_interface = line.split()[1]  # Extract interface name
+        
+        # If the current interface is in trunk mode, extract allowed VLANs
+        if "switchport trunk allowed vlan" in line:
+            # Extract VLANs from the line and store in the dictionary
+            vlan_list = line.split("vlan")[-1].strip().split(",")
+            trunk_dict[current_interface] = vlan_list
+
+# Output the resulting dictionary using pprint for better readability
+pprint.pprint(trunk_dict)

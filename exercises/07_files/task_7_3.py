@@ -17,3 +17,17 @@ MAC-адреса, має бути оброблена таким чином, що
 1000     0a4b.c380.7d00      Gi0/9
 
 """
+
+with open ('CAM_table.txt') as f:
+    is_header = True
+    for line in f:
+        if is_header:
+            if 'Mac Address Table' in line:
+                is_header = False
+            continue
+        if line.startswith(' '):
+            line = line.split()
+            enf = line[-1]
+            vlan = line[0]
+            mac = line[1]
+            print(f'{vlan:20}{mac:20}{enf}')

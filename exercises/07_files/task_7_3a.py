@@ -37,3 +37,27 @@
 однаковий, то з другого. Так працює за замовчуванням функція sorted та метод
 sort, якщо сортувати перелік списків вище.
 """
+
+from pprint import pprint
+
+vlan_list = []
+
+with open('CAM_table.txt') as f:
+    is_header = True
+    for line in f:
+        if is_header:
+            if 'Mac Address Table' in line:
+                is_header = False
+            continue
+        if line.startswith(' '):
+            line = line.split()
+            vlan = int(line[0])
+            mac = line[1]
+            interface = line[-1]
+            vlan_list.append([vlan, mac, interface])
+
+vlan_list.sort()
+
+
+for entry in vlan_list:
+    print(f"{entry[0]:<20} {entry[1]:<20} {entry[2]:<20}")

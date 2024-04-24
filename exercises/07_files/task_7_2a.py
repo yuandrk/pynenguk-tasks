@@ -46,5 +46,35 @@ line vty 0 4
 Перевірити роботу скрипта на конфігураційному файлі config_sw1.txt. Ім'я файлу
 передається як аргумент скрипту.
 """
+import sys
 
-ignore = ["duplex", "alias", "configuration", "end", "service"]
+# List of keywords to ignore if they exist anywhere in a line
+ignore_keywords = ["duplex", "alias", "configuration", "end", "service"]
+
+# Function to check if a line contains any of the ignore keywords
+def contains_any(line, keywords):
+    # Check if any keyword from the list exists in the line
+    return any(keyword in line for keyword in keywords)
+
+# Better variable naming for clarity
+input_filename = sys.argv[1]
+
+# Use a context manager for file handling
+with open(input_filename) as file:
+    # Loop through each line in the file
+    for line in file:
+        line = line.rstrip()  # Remove trailing whitespace
+        # Ignore empty lines
+        if not line:
+            continue
+        
+        # Skip lines that start with '!'
+        if line.startswith("!"):
+            continue
+        
+        # Skip lines containing ignore keywords
+        if contains_any(line, ignore_keywords):
+            continue
+        
+        # If none of the above conditions are met, print the line
+        print(line)

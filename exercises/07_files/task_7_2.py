@@ -40,3 +40,37 @@ interface Ethernet0/3
 ...
 
 """
+
+import sys
+
+# Better variable naming for clarity
+input_filename = sys.argv[1]
+
+# Use a context manager for file handling
+with open(input_filename) as file:
+    # Initialize a flag for writing lines
+    write_line = False
+    
+    # Loop through each line in the file
+    for line in file:
+        # If line starts with 'interface', print and set the flag to True
+        if line.startswith('interface'):
+            print(line.rstrip())  # Remove trailing spaces
+            write_line = True
+        
+        # For specific keywords, print the line without a new line (end='')
+        elif line.startswith(('version', 'service', 'Current', 'no service')):
+            print(line, end='')
+            
+        elif line.startswith('hostname'):
+            print(line.rstrip())  # Remove trailing spaces
+            write_line = True
+            
+        # If line starts with a space, only print if 'write_line' is True
+        elif line.startswith(" "):
+            if write_line:
+                print(line.rstrip())
+        
+        # Reset the flag if none of the above conditions are met
+        else:
+            write_line = False

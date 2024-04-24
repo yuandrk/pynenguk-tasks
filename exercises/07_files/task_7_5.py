@@ -62,4 +62,40 @@ config_trunk_sw3.txt. Переконайтеся, що в результаі д�
 вірні словники.
 
 """
-from pprint import pprint
+import sys
+import pprint
+
+# Get the input filename from command-line arguments
+input_filename = sys.argv[1]
+
+# Dictionary to hold interface information
+interface_dict = {}
+
+# Use a context manager to read the configuration file
+with open(input_filename) as file:
+    # Variable to hold the current interface name
+    current_interface = None
+    
+    # Loop through each line in the configuration file
+    for line in file:
+        line = line.strip()  # Remove leading and trailing whitespace
+        
+        # If the line starts with 'interface', set the current interface
+        if line.startswith("interface"):
+            # Extract interface name
+            interface_name = line.split()[1]
+            current_interface = interface_name
+            # Initialize an empty list for the current interface in the dictionary
+            interface_dict[current_interface] = []
+        
+        # If there's a current interface, check for switchport commands
+        elif current_interface and line.startswith("switchport"):
+            # Add the switchport command to the list for the current interface
+            interface_dict[current_interface].append(line)
+        
+        # If the line doesn't start with 'interface' or 'switchport', clear current_interface
+        elif not line.startswith("interface") and not line.startswith("switchport"):
+            current_interface = None
+
+# Output the resulting dictionary using pprint for better readability
+pprint.pprint(interface_dict)
