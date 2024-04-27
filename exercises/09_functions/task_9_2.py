@@ -50,3 +50,24 @@ False
 """
 
 ip_list = ["10.1.1.1", "10.3.a.a", "500.1.1.1", "150.168.100.1", "62.150.240.300"]
+
+def check_ip(ip_addr):
+    """
+    Check if IP address is valid
+    """
+    # Split IP address into parts
+    parts = ip_addr.split(".")
+    
+    # Check if IP address has 4 parts
+    if len(parts) != 4:
+        return False
+    
+    # Check if each part is an integer between 0 and 255
+    for part in parts:
+        if not part.isdigit() or int(part) < 0 or int(part) > 255:
+            return False
+    
+    return True
+
+for ip in ip_list:
+    print(check_ip(ip))

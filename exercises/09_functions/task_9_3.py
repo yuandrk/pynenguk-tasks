@@ -80,3 +80,9 @@ Out[8]:
 
 ignore_list = ["duplex", "alias exec", "Current configuration", "service"]
 
+import sys
+
+file = sys.argv[1]
+
+def clean_config(config_filename, ignore_lines):
+   
