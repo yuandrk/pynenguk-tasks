@@ -90,6 +90,56 @@ Out[5]:
 У завданнях 9го розділу і далі, крім зазначеної функції, можна створювати
 будь-які додаткові функції.
 """
+import sys
 
 ignore_list = ["duplex", "alias exec", "Current configuration", "service"]
+
+config_filename = sys.argv[1]
+
+
+def clean_config(
+    config_filename,
+    ignore_lines=None,
+    ignore_exclamation=True,
+    strip_lines=False,
+    delete_empty_lines=True,
+):
+    """
+    Processes a configuration file and returns a list of commands based on given conditions.
+
+    :param config_filename: The name of the configuration file to process.
+    :param ignore_lines: A list of keywords to ignore in the configuration file. Default is None.
+    :param ignore_exclamation: If True, ignore lines that start with '!'. Default is True.
+    :param strip_lines: If True, strip spaces at the beginning and end of lines. Default is False.
+    :param delete_empty_lines: If True, delete empty lines from the result. Default is True.
+    :return: A list of commands from the processed configuration file.
+    """
+    results = []  # List to store the filtered lines
+
+    # Open the configuration file with a context manager
+    with open(config_filename) as file:
+        # Loop through each line in the file
+        for line in file:
+            # Strip lines if the flag is set
+            if strip_lines:
+                line = line.strip()  # Remove leading/trailing spaces
+            else:
+                line = line.rstrip()  # Only remove trailing spaces
+
+            # Ignore empty lines if the flag is set
+            if delete_empty_lines and not line:
+                continue
+
+            # Ignore lines starting with '!' if the flag is set
+            if ignore_exclamation and line.startswith("!"):
+                continue
+
+            # Ignore lines containing any keywords from ignore_lines
+            if ignore_lines and any(keyword in line for keyword in ignore_lines):
+                continue
+
+            # If none of the above conditions are met, add the line to the results
+            results.append(line)
+
+    return results
 

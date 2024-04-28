@@ -78,11 +78,45 @@ Out[8]:
 будь-які додаткові функції.
 """
 
-ignore_list = ["duplex", "alias exec", "Current configuration", "service"]
 
 import sys
 
-file = sys.argv[1]
+ignore_list = ["duplex", "alias exec", "Current configuration", "service"]
+input_file = sys.argv[1]  # The input file provided as a command-line argument
 
-def clean_config(config_filename, ignore_lines):
-   
+def contains_any(line, keywords):
+    """
+    Check if any keyword from the list exists in the given line.
+
+    :param line: The text line to check
+    :param keywords: A list of keywords to look for
+    :return: True if any keyword is found in the line, False otherwise
+    """
+    return any(keyword in line for keyword in keywords)
+
+def process_lines(file, ignore_keywords):
+    """
+    Processes the lines of a file, skipping unwanted content based on given conditions.
+
+    :param file: The file object to be processed
+    :param ignore_keywords: List of keywords to ignore in the file
+    """
+    for line in file:
+        line = line.rstrip()  # Remove trailing whitespace
+
+        # Continue to the next line if it's empty, starts with '!', or contains any ignored keyword
+        if not line or line.startswith("!") or contains_any(line, ignore_keywords):
+            continue
+        
+        # If none of the above conditions are met, print the line
+        print(line)
+
+# Open the file using a context manager
+with open(input_file) as file:
+    process_lines(file, ignore_list)
+
+
+
+
+
+

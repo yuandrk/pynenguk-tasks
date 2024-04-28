@@ -38,15 +38,18 @@ aa:aa:bb:bb:cc:cc
 
 mac_list = ["1a1b.2c2d.3e3f", "aaaa.bbbb.cccc", "1111.2222.3333"]
 
+
 # Function to convert MAC address format
 def convert_mac(mac_address):
     """
-    Convert a MAC address from Cisco format (1a1b.2c2d.3e3f) to standard format (1a:1b:2c:2d:3e:3f).
+    Convert a MAC address from Cisco format (1a1b.2c2d.3e3f)
+    to standard format (1a:1b:2c:2d:3e:3f).
     """
     # Join all parts without "." and then separate every 2 characters with ":"
     cleaned_mac = mac_address.replace(".", "")  # Remove periods
     formatted_mac = ":".join(cleaned_mac[i:i + 2] for i in range(0, len(cleaned_mac), 2))
     return formatted_mac
+
 
 # Apply conversion to each MAC address and print the results
 converted_mac_list = [convert_mac(mac) for mac in mac_list]
