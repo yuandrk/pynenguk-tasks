@@ -74,3 +74,31 @@ trunk_dict_2 = {
     "FastEthernet0/15": [111, 130],
     "FastEthernet0/14": [117],
 }
+
+def generate_trunk_config(intf_vlan_dict, trunk_template):
+    """
+    Generate trunk port configurations based on a given template.
+
+    :param intf_vlan_dict: Dictionary mapping interfaces to lists of VLANs
+    :param trunk_template: List of commands for trunk port configuration
+    :return: A list of trunk port configuration commands
+    """
+    # List to store the resulting configuration
+    config = []
+
+    # Loop through each interface in the dictionary
+    for interface, vlans in intf_vlan_dict.items():
+        # Add the interface header
+        config.append(f"interface {interface}")
+
+        # Loop through each command in the template
+        for command in trunk_template:
+            # If the command is 'switchport trunk allowed vlan', append VLAN list
+            if command == "switchport trunk allowed vlan":
+                # Convert VLAN list to comma-separated string
+                vlan_list = ",".join(map(str, vlans))
+                config.append(f"{command} {vlan_list}")
+            else:
+                config.append(command)
+
+    return config

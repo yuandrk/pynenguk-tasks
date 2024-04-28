@@ -78,3 +78,30 @@ access_cmd_list = [
     "spanning-tree bpduguard enable",
 ]
 cmd_list = ["switchport mode access", "switchport access vlan"]
+
+
+def generate_access_config(intf_vlan_dict, access_template):
+    """
+    Generate configuration for access ports based on a given template.
+
+    :param intf_vlan_dict: Dictionary mapping interfaces to VLANs
+    :param access_template: List of commands to be added for each interface
+    :return: A list of configuration commands for access ports
+    """
+    # List to store the resulting configuration
+    config = []
+
+    # Loop through each interface in the dictionary
+    for interface, vlan in intf_vlan_dict.items():
+        # Add the interface header
+        config.append(f"interface {interface}")
+
+        # Loop through each command in the template
+        for command in access_template:
+            # If command is 'switchport access vlan', add VLAN number
+            if command == "switchport access vlan":
+                config.append(f"{command} {vlan}")
+            else:
+                config.append(command)
+
+    return config

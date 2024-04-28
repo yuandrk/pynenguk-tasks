@@ -85,3 +85,37 @@ In [6]: pprint(cfg_dict2, sort_dicts=False)
 будь-які додаткові функції.
 """
 ignore = ["duplex", "alias", "configuration"]
+
+
+def convert_config_to_dict(config_filename, ignore_lines=None):
+    """
+    Processes a switch configuration file and returns a dictionary with top-level commands as keys
+    and subcommands as values (if any), ignoring specific lines.
+
+    :param config_filename: The name of the configuration file to process.
+    :param ignore_lines: A list of words to ignore if found in a line.
+    :return: A dictionary with top-level commands and their corresponding subcommands (as a list).
+    """
+    config_dict = {}
+    current_command = None  # Track the current top-level command
+
+    if ignore_lines is None:
+        ignore_lines = []
+
+    with open(config_filename) as file:
+        for line in file:
+            line = line.rstrip()  # Remove trailing whitespace
+
+            # Skip empty lines, lines starting with '!', and lines containing ignored words
+            if not line or line.startswith("!") or any(word in line for word in ignore_lines):
+                continue
+
+            # If line doesn't start with a space, it's a top-level command
+            if not line.startswith(" "):
+                current_command = line
+                config_dict[current_command] = []  # Start a new list for subcommands
+            else:
+                # If it starts with a space, it's a subcommand
+                config_dict[current_command].append(line.strip())  # Add subcommand
+
+    return config_dict

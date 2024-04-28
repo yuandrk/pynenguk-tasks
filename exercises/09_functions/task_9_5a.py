@@ -40,3 +40,33 @@ trunk_dict = {
     "FastEthernet0/2": [11, 30],
     "FastEthernet0/4": [17],
 }
+
+def generate_trunk_config(intf_vlan_dict, trunk_template):
+    """
+    Generate trunk port configurations and return a dictionary with interfaces as keys.
+
+    :param intf_vlan_dict: Dictionary mapping interfaces to lists of VLANs
+    :param trunk_template: List of commands for trunk port configuration
+    :return: A dictionary where keys are interfaces and values are lists of commands
+    """
+    # Dictionary to store the configuration for each interface
+    config_dict = {}
+
+    # Loop through each interface in the dictionary
+    for interface, vlans in intf_vlan_dict.items():
+        # Create a list to store commands for the current interface
+        interface_commands = []
+
+        # Loop through each command in the template
+        for command in trunk_template:
+            if command == "switchport trunk allowed vlan":
+                # Convert VLAN list to comma-separated string
+                vlan_list = ",".join(map(str, vlans))
+                interface_commands.append(f"{command} {vlan_list}")
+            else:
+                interface_commands.append(command)
+
+        # Add the interface-specific commands to the config dictionary
+        config_dict[interface] = interface_commands
+
+    return config_dict
